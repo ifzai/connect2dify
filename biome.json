@@ -4,7 +4,7 @@
     "actions": {
       "source": {
         "sortJsxProps": "off",
-        "useSortedKeys": "on"
+        "useSortedKeys": "off"
       }
     },
     "enabled": true
@@ -21,7 +21,13 @@
   "formatter": {
     "bracketSpacing": true,
     "enabled": true,
-    "ignore": ["node_modules", "dist", "build", ".next", "out"],
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      ".next",
+      "out"
+    ],
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
