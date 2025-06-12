@@ -17,10 +17,33 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.cjs",
-  "name": "connect2dify",
-  "private": true,
+  "name": "@ifzai/connect2dify",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ifz-ai/connect2dify.git"
+  },
+  "homepage": "https://github.com/ifz-ai/connect2dify#readme",
+  "bugs": {
+    "url": "https://github.com/ifz-ai/connect2dify/issues"
+  },
+  "keywords": [
+    "dify",
+    "connect",
+    "api",
+    "client",
+    "typescript"
+  ],
+  "author": "ifz.ai",
+  "license": "MIT",
   "scripts": {
     "build": "rslib build",
     "check": "biome check --write",
@@ -30,6 +53,8 @@
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "prepare": "husky",
+    "prepublishOnly": "pnpm run build && pnpm run test",
+    "release": "pnpm run prepublishOnly && npm publish",
     "test": "vitest run",
     "test:watch": "vitest"
   },

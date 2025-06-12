@@ -1,4 +1,16 @@
-# Rslib project
+# @ifzai/connect2dify
+
+A TypeScript library for connecting to Dify APIs.
+
+## Installation
+
+```bash
+npm install @ifzai/connect2dify
+# or
+pnpm add @ifzai/connect2dify
+# or  
+yarn add @ifzai/connect2dify
+```
 
 ## Setup
 
