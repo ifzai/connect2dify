@@ -15,7 +15,12 @@ import type {
   WorkflowRunParams,
 } from './types.js';
 
-import { buildURL, createHeaders, handleResponse, handleStreamResponse } from './utils.js';
+import {
+  buildURL,
+  createHeaders,
+  handleResponse,
+  handleStreamResponse,
+} from './utils.js';
 
 /**
  * Workflow API methods
@@ -28,7 +33,9 @@ export class WorkflowAPI {
    * @param params - Workflow run parameters
    * @returns Promise resolving to workflow completion response or stream chunks
    */
-  async runWorkflow(params: WorkflowRunParams): Promise<WorkflowCompletionResponse | WorkflowChunkResponse[]> {
+  async runWorkflow(
+    params: WorkflowRunParams,
+  ): Promise<WorkflowCompletionResponse | WorkflowChunkResponse[]> {
     const url = buildURL(this.config.baseUrl, 'workflows/run');
     const isStreaming = params.response_mode === 'streaming';
 
@@ -40,7 +47,10 @@ export class WorkflowAPI {
     // Handle blocking mode
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+      ),
       body: JSON.stringify(params),
     });
 
@@ -53,11 +63,17 @@ export class WorkflowAPI {
    * @returns Promise resolving to workflow run result
    */
   async getWorkflow(params: GetWorkflowParams): Promise<GetWorkflowResult> {
-    const url = buildURL(this.config.baseUrl, `workflows/run/${params.workflow_run_id}`);
+    const url = buildURL(
+      this.config.baseUrl,
+      `workflows/run/${params.workflow_run_id}`,
+    );
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+      ),
     });
 
     return handleResponse<GetWorkflowResult>(response);
@@ -68,12 +84,20 @@ export class WorkflowAPI {
    * @param params - Stop parameters
    * @returns Promise resolving to stop result
    */
-  async stopWorkflowTask(params: StopWorkflowTaskParams): Promise<StopWorkflowTaskResult> {
-    const url = buildURL(this.config.baseUrl, `workflows/tasks/${params.task_id}/stop`);
+  async stopWorkflowTask(
+    params: StopWorkflowTaskParams,
+  ): Promise<StopWorkflowTaskResult> {
+    const url = buildURL(
+      this.config.baseUrl,
+      `workflows/tasks/${params.task_id}/stop`,
+    );
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+      ),
       body: JSON.stringify({ user: params.user }),
     });
 
@@ -85,7 +109,9 @@ export class WorkflowAPI {
    * @param params - Query parameters
    * @returns Promise resolving to workflow logs
    */
-  async getWorkflowLogs(params: GetWorkflowLogsParams): Promise<GetWorkflowLogsResult> {
+  async getWorkflowLogs(
+    params: GetWorkflowLogsParams,
+  ): Promise<GetWorkflowLogsResult> {
     const queryParams: Record<string, string> = {};
 
     if (params.keyword) queryParams.keyword = params.keyword;
@@ -97,7 +123,10 @@ export class WorkflowAPI {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+      ),
     });
 
     return handleResponse<GetWorkflowLogsResult>(response);
@@ -107,17 +136,28 @@ export class WorkflowAPI {
    * Handle workflow streaming responses
    * @private
    */
-  private async handleWorkflowStream(params: WorkflowRunParams, url: string): Promise<WorkflowChunkResponse[]> {
+  private async handleWorkflowStream(
+    params: WorkflowRunParams,
+    url: string,
+  ): Promise<WorkflowChunkResponse[]> {
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+      ),
       body: JSON.stringify(params),
     });
 
     if (!response.ok || !response.body) {
-      throw new Error(`Workflow failed: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Workflow failed: ${response.status} ${response.statusText}`,
+      );
     }
 
-    return handleStreamResponse<WorkflowChunkResponse>(response, params.chunkCompletionCallback);
+    return handleStreamResponse<WorkflowChunkResponse>(
+      response,
+      params.chunkCompletionCallback,
+    );
   }
 }

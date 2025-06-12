@@ -18,7 +18,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.cjs",
   "name": "@ifzai/connect2dify",
   "private": false,
@@ -28,13 +30,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ifz-ai/connect2dify.git"
+    "url": "git+ssh://git@github.com/ifzai/connect2dify.git"
   },
-  "homepage": "https://github.com/ifz-ai/connect2dify#readme",
+  "homepage": "https://github.com/ifzai/connect2dify#readme",
   "bugs": {
-    "url": "https://github.com/ifz-ai/connect2dify/issues"
+    "url": "https://github.com/ifzai/connect2dify/issues"
   },
-  "keywords": ["dify", "connect", "api", "client", "typescript"],
+  "keywords": [
+    "dify",
+    "connect",
+    "api",
+    "client",
+    "typescript"
+  ],
   "author": {
     "name": "silo",
     "email": "hello@ifz.ai"
@@ -53,8 +61,7 @@
     "release": "pnpm run prepublishOnly && npm publish",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:integration": "vitest run tests/workflow.integration.test.ts",
-    "example:workflow": "tsx examples/workflow-example.ts",
+    "example:workflow": "tsx examples/comprehensive-workflow-demo.ts",
     "debug:api": "tsx examples/debug-api.ts",
     "test:raw": "node examples/raw-api-test.js"
   },

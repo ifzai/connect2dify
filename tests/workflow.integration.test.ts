@@ -69,7 +69,10 @@ describe('Dify Workflow Integration Tests', () => {
 
         if (response.length > 0) {
           console.log('First chunk:', JSON.stringify(response[0], null, 2));
-          console.log('Last chunk:', JSON.stringify(response[response.length - 1], null, 2));
+          console.log(
+            'Last chunk:',
+            JSON.stringify(response[response.length - 1], null, 2),
+          );
         }
 
         // Each chunk should be an object
@@ -78,7 +81,10 @@ describe('Dify Workflow Integration Tests', () => {
           console.log(`Chunk ${index}:`, chunk);
         });
       } else {
-        console.log('Non-streaming response:', JSON.stringify(response, null, 2));
+        console.log(
+          'Non-streaming response:',
+          JSON.stringify(response, null, 2),
+        );
         expect(response).toBeDefined();
       }
     } catch (error) {
@@ -102,7 +108,10 @@ describe('Dify Workflow Integration Tests', () => {
     try {
       const response = await client.workflow.runWorkflow(customWorkflowParams);
 
-      console.log('Custom Workflow Response:', JSON.stringify(response, null, 2));
+      console.log(
+        'Custom Workflow Response:',
+        JSON.stringify(response, null, 2),
+      );
 
       expect(response).toBeDefined();
       expect(typeof response).toBe('object');
@@ -177,7 +186,9 @@ describe('Dify Workflow Integration Tests', () => {
       }
 
       if (workflowInfo.status && workflowInfo.status !== null) {
-        expect(['running', 'succeeded', 'failed', 'stopped']).toContain(workflowInfo.status);
+        expect(['running', 'succeeded', 'failed', 'stopped']).toContain(
+          workflowInfo.status,
+        );
       }
     } catch (error) {
       console.error('Get workflow info failed:', error);

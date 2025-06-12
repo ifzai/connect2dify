@@ -13,14 +13,22 @@ async function testRawAPI() {
 
     // Chat completion endpoints
     { name: 'Chat Messages', url: `${BASE_URL}/chat-messages`, method: 'POST' },
-    { name: 'Completion Messages', url: `${BASE_URL}/completion-messages`, method: 'POST' },
+    {
+      name: 'Completion Messages',
+      url: `${BASE_URL}/completion-messages`,
+      method: 'POST',
+    },
 
     // App info endpoints
     { name: 'App Parameters', url: `${BASE_URL}/parameters`, method: 'GET' },
     { name: 'App Meta', url: `${BASE_URL}/meta`, method: 'GET' },
 
     // Alternative workflow patterns
-    { name: 'Alternative Workflow', url: `${BASE_URL}/workflow/run`, method: 'POST' },
+    {
+      name: 'Alternative Workflow',
+      url: `${BASE_URL}/workflow/run`,
+      method: 'POST',
+    },
   ];
 
   for (const endpoint of endpoints) {
