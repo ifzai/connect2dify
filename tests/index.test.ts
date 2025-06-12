@@ -17,8 +17,8 @@ describe('Dify Client', () => {
 
   test('should create DifyClient instance', () => {
     const client = new DifyClient({
-      baseUrl: 'https://api.dify.ai',
-      apiKey: 'test-key',
+      baseUrl: 'https://mock-api.example.com/v1',
+      apiKey: 'mock-test-key',
     });
 
     expect(client).toBeInstanceOf(DifyClient);
@@ -31,8 +31,8 @@ describe('Dify Client', () => {
 
   test('should allow config updates', () => {
     const client = new DifyClient({
-      baseUrl: 'https://api.dify.ai',
-      apiKey: 'test-key',
+      baseUrl: 'https://mock-api.example.com/v1',
+      apiKey: 'mock-test-key',
     });
 
     client.updateConfig({
