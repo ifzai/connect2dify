@@ -1,74 +1,68 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
+  "assists": {
+    "actions": {
+      "source": {
+        "sortJsxProps": "off",
+        "useSortedKeys": "on"
+      }
+    },
     "enabled": true
-  },
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
-  "files": {
-    "ignoreUnknown": true,
-    "ignore": []
-  },
-  "formatter": {
-    "indentStyle": "space",
-    "lineWidth": 120,
-    "lineEnding": "lf",
-    "indentWidth": 2,
-    "ignore": [
-      "node_modules",
-      "dist",
-      "build",
-      ".next",
-      "out"
-    ],
-    "bracketSpacing": true,
-    "enabled": true
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "semicolons": "always",
-      "enabled": true,
-      "attributePosition": "auto",
-      "jsxQuoteStyle": "double",
-      "trailingCommas": "all",
-      "quoteProperties": "asNeeded"
-    }
   },
   "css": {
     "parser": {
       "cssModules": true
     }
   },
+  "files": {
+    "ignore": [],
+    "ignoreUnknown": true
+  },
+  "formatter": {
+    "bracketSpacing": true,
+    "enabled": true,
+    "ignore": ["node_modules", "dist", "build", ".next", "out"],
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "attributePosition": "auto",
+      "enabled": true,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
       "a11y": {
         "useKeyWithClickEvents": "info",
         "useKeyWithMouseEvents": "info"
       },
-      "style": {
-        "useImportType": "off"
+      "complexity": {
+        "noStaticOnlyClass": "off"
       },
       "performance": {
         "noAccumulatingSpread": "off"
       },
-      "complexity": {
-        "noStaticOnlyClass": "off"
+      "recommended": true,
+      "style": {
+        "useImportType": "off"
       }
     }
   },
-  "assists": {
+  "organizeImports": {
+    "enabled": true
+  },
+  "vcs": {
+    "clientKind": "git",
     "enabled": true,
-    "actions": {
-      "source": {
-        "useSortedKeys": "on",
-        "sortJsxProps": "off"
-      }
-    }
+    "useIgnoreFile": true
   }
 }
