@@ -8,7 +8,7 @@ A TypeScript library for connecting to Dify APIs.
 npm install @ifzai/connect2dify
 # or
 pnpm add @ifzai/connect2dify
-# or  
+# or
 yarn add @ifzai/connect2dify
 ```
 

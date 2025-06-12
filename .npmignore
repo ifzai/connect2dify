@@ -1,0 +1,41 @@
+# Source files
+src/
+tests/
+
+# Configuration files
+.husky/
+biome.json
+commitlint.config.js
+rslib.config.ts
+tsconfig.json
+vitest.config.ts
+.prettierrc
+.prettierignore
+
+# Development files
+.vscode/
+.idea/
+*.log
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build artifacts (keep only dist/)
+build/
+out/
+.cache/
+
+# Environment
+.env*
+
+# Testing
+coverage/
+.nyc_output
