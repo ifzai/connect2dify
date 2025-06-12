@@ -73,39 +73,63 @@ async function comprehensiveWorkflowDemo() {
 
   try {
     const startTime = Date.now();
+
+    console.log('🚀 Starting streaming workflow...');
+    console.log('📝 Streaming output (word by word):');
+    console.log('---');
+
+    let streamedText = '';
+    let chunkCount = 0;
+    const eventTypes: Record<string, number> = {};
+
+    // Use the streaming callback to show real-time output
     const streamingResponse = await client.workflow.runWorkflow({
       inputs: {
         query: 'Tell me a short story about a robot.',
       },
       user: userId,
       response_mode: 'streaming',
+      chunkCompletionCallback: (chunk) => {
+        chunkCount++;
+        eventTypes[chunk.event] = (eventTypes[chunk.event] || 0) + 1;
+
+        // Show workflow events
+        if (chunk.event === 'workflow_started') {
+          console.log('\n🎬 Workflow started...');
+        } else if (chunk.event === 'node_started') {
+          console.log(`\n🔧 Node started: ${chunk.data?.title || 'Unknown'}`);
+        } else if (chunk.event === 'text_chunk' && chunk.data?.text) {
+          // This is the actual streaming text - show it word by word
+          process.stdout.write(chunk.data.text);
+          streamedText += chunk.data.text;
+        } else if (chunk.event === 'node_finished') {
+          console.log(`\n✅ Node finished: ${chunk.data?.title || 'Unknown'}`);
+        } else if (chunk.event === 'workflow_finished') {
+          console.log('\n\n🏁 Workflow finished!');
+        }
+      },
     });
 
     const endTime = Date.now();
     const executionTime = (endTime - startTime) / 1000;
 
+    console.log('\n---');
     console.log(`✅ Streaming execution completed in ${executionTime}s`);
+    console.log('📊 Statistics:');
+    console.log(`- Total chunks received: ${chunkCount}`);
+    console.log(`- Streamed text length: ${streamedText.length} characters`);
+    console.log('- Event type distribution:', eventTypes);
 
-    if (Array.isArray(streamingResponse)) {
-      console.log(`- Total chunks received: ${streamingResponse.length}`);
-
-      // Show first and last chunk
-      if (streamingResponse.length > 0) {
-        console.log('- First chunk event:', streamingResponse[0].event);
-        console.log('- Last chunk event:', streamingResponse[streamingResponse.length - 1].event);
+    // Also show the final response structure
+    if (Array.isArray(streamingResponse) && streamingResponse.length > 0) {
+      const lastChunk = streamingResponse[streamingResponse.length - 1];
+      if (lastChunk.event === 'workflow_finished' && lastChunk.data) {
+        console.log(`- Final status: ${lastChunk.data.status}`);
+        console.log(`- Total tokens: ${lastChunk.data.total_tokens}`);
+        console.log(`- Execution time: ${lastChunk.data.elapsed_time}s`);
       }
-
-      // Count different event types
-      const eventTypes = streamingResponse.reduce(
-        (acc, chunk) => {
-          acc[chunk.event] = (acc[chunk.event] || 0) + 1;
-          return acc;
-        },
-        {} as Record<string, number>,
-      );
-
-      console.log('- Event type distribution:', eventTypes);
     }
+
     console.log('\n');
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';

@@ -404,7 +404,7 @@ export interface WorkflowCompletionResponse {
 }
 
 export interface WorkflowChunkResponse {
-  event: 'workflow_started' | 'workflow_finished' | 'node_started' | 'node_finished' | 'error';
+  event: 'workflow_started' | 'workflow_finished' | 'node_started' | 'node_finished' | 'text_chunk' | 'error';
   task_id?: string;
   workflow_run_id?: string;
   data?: {
@@ -431,6 +431,9 @@ export interface WorkflowChunkResponse {
       total_price?: string;
       currency?: string;
     };
+    // For text_chunk events
+    text?: string;
+    from_variable_selector?: string[];
   };
 }
 
