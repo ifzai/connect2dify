@@ -1,0 +1,74 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": []
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 120,
+    "lineEnding": "lf",
+    "indentWidth": 2,
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      ".next",
+      "out"
+    ],
+    "bracketSpacing": true,
+    "enabled": true
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "enabled": true,
+      "attributePosition": "auto",
+      "jsxQuoteStyle": "double",
+      "trailingCommas": "all",
+      "quoteProperties": "asNeeded"
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "useKeyWithClickEvents": "info",
+        "useKeyWithMouseEvents": "info"
+      },
+      "style": {
+        "useImportType": "off"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off"
+      },
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      }
+    }
+  },
+  "assists": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "useSortedKeys": "on",
+        "sortJsxProps": "off"
+      }
+    }
+  }
+}
