@@ -29,7 +29,7 @@ export class WorkflowAPI {
    * @returns Promise resolving to workflow completion response or stream chunks
    */
   async runWorkflow(params: WorkflowRunParams): Promise<WorkflowCompletionResponse | WorkflowChunkResponse[]> {
-    const url = buildURL(this.config.baseUrl, 'v1/workflows/run');
+    const url = buildURL(this.config.baseUrl, 'workflows/run');
     const isStreaming = params.response_mode === 'streaming';
 
     // Handle streaming mode
@@ -48,12 +48,12 @@ export class WorkflowAPI {
   }
 
   /**
-   * Get workflow execution result
-   * @param params - Query parameters
-   * @returns Promise resolving to workflow result
+   * Get workflow run execution result
+   * @param params - Query parameters containing workflow_run_id
+   * @returns Promise resolving to workflow run result
    */
   async getWorkflow(params: GetWorkflowParams): Promise<GetWorkflowResult> {
-    const url = buildURL(this.config.baseUrl, `v1/workflows/run/${params.workflow_id}`);
+    const url = buildURL(this.config.baseUrl, `workflows/run/${params.workflow_run_id}`);
 
     const response = await fetch(url, {
       method: 'GET',
@@ -69,7 +69,7 @@ export class WorkflowAPI {
    * @returns Promise resolving to stop result
    */
   async stopWorkflowTask(params: StopWorkflowTaskParams): Promise<StopWorkflowTaskResult> {
-    const url = buildURL(this.config.baseUrl, `v1/workflows/tasks/${params.task_id}/stop`);
+    const url = buildURL(this.config.baseUrl, `workflows/tasks/${params.task_id}/stop`);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -93,7 +93,7 @@ export class WorkflowAPI {
     if (params.page) queryParams.page = String(params.page);
     if (params.limit) queryParams.limit = String(params.limit);
 
-    const url = buildURL(this.config.baseUrl, 'v1/workflows/logs', queryParams);
+    const url = buildURL(this.config.baseUrl, 'workflows/logs', queryParams);
 
     const response = await fetch(url, {
       method: 'GET',

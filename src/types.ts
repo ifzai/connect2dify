@@ -435,7 +435,8 @@ export interface WorkflowChunkResponse {
 }
 
 export interface GetWorkflowParams {
-  workflow_id: string;
+  /** The workflow run ID (specific execution instance) to get information about */
+  workflow_run_id: string;
 }
 
 export interface GetWorkflowResult {

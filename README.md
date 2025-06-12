@@ -31,14 +31,14 @@ import { DifyClient } from '@ifzai/connect2dify';
 
 const client = new DifyClient({
   baseUrl: 'https://api.dify.ai',
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 });
 
 // Send a chat message
 const response = await client.chat.sendMessage({
   user: 'user-123',
   query: 'Hello, how can you help me?',
-  response_mode: 'blocking'
+  response_mode: 'blocking',
 });
 
 console.log(response.answer);
@@ -51,7 +51,7 @@ console.log(response.answer);
 const streamParams = {
   user: 'user-123',
   query: 'Tell me a story',
-  response_mode: 'streaming' as const
+  response_mode: 'streaming' as const,
 };
 
 const result = await client.chat.sendMessage(streamParams);
@@ -70,7 +70,7 @@ import { ChatAPI, WorkflowAPI } from '@ifzai/connect2dify';
 
 const config = {
   baseUrl: 'https://api.dify.ai',
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 };
 
 const chatAPI = new ChatAPI(config);
@@ -79,12 +79,12 @@ const workflowAPI = new WorkflowAPI(config);
 // Use APIs independently
 const chatResponse = await chatAPI.sendMessage({
   user: 'user-123',
-  query: 'Hello!'
+  query: 'Hello!',
 });
 
 const workflowResponse = await workflowAPI.runWorkflow({
   user: 'user-123',
-  inputs: { text: 'Process this' }
+  inputs: { text: 'Process this' },
 });
 ```
 
@@ -100,11 +100,12 @@ const client = new DifyClient({
   apiKey: 'your-api-key',
   defaultResponseMode: 'blocking', // optional
   defaultUser: 'default-user', // optional
-  requestOptions: { // optional
+  requestOptions: {
+    // optional
     extraHeaders: {
-      'Custom-Header': 'value'
-    }
-  }
+      'Custom-Header': 'value',
+    },
+  },
 });
 ```
 
@@ -157,7 +158,7 @@ This package works in both browser and Node.js environments using modern web API
 try {
   const response = await client.chat.sendMessage({
     user: 'user-123',
-    query: 'Hello!'
+    query: 'Hello!',
   });
 } catch (error) {
   console.error('API Error:', error.message);
@@ -171,9 +172,9 @@ try {
   const result = await client.chat.sendMessage({
     user: 'user-123',
     query: 'Tell me a story',
-    response_mode: 'streaming'
+    response_mode: 'streaming',
   });
-  
+
   if (Array.isArray(result)) {
     // Handle streaming chunks
     for (const chunk of result) {
@@ -186,7 +187,7 @@ try {
     const response = await client.chat.sendMessage({
       user: 'user-123',
       query: 'Tell me a story',
-      response_mode: 'blocking'
+      response_mode: 'blocking',
     });
     console.log(response.answer);
   }

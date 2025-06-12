@@ -27,7 +27,7 @@ export class AppAPI {
    * @returns Promise resolving to app parameters
    */
   async getParameters(): Promise<AppParameters> {
-    const url = buildURL(this.config.baseUrl, 'v1/parameters');
+    const url = buildURL(this.config.baseUrl, 'parameters');
 
     const response = await fetch(url, {
       method: 'GET',
@@ -42,7 +42,7 @@ export class AppAPI {
    * @returns Promise resolving to app info
    */
   async getInfo(): Promise<AppInfo> {
-    const url = buildURL(this.config.baseUrl, 'v1/info');
+    const url = buildURL(this.config.baseUrl, 'info');
 
     const response = await fetch(url, {
       method: 'GET',
@@ -57,7 +57,7 @@ export class AppAPI {
    * @returns Promise resolving to app meta
    */
   async getMeta(): Promise<AppMeta> {
-    const url = buildURL(this.config.baseUrl, 'v1/meta');
+    const url = buildURL(this.config.baseUrl, 'meta');
 
     const response = await fetch(url, {
       method: 'GET',

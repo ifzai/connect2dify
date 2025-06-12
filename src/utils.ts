@@ -129,7 +129,10 @@ export function isStreamingSupported(): boolean {
 /**
  * Creates a FormData object for file uploads
  */
-export function createFormData(params: { file: File | Blob; user: string }): FormData {
+export function createFormData(params: {
+  file: File | Blob;
+  user: string;
+}): FormData {
   const formData = new FormData();
   formData.append('file', params.file);
   formData.append('user', params.user);

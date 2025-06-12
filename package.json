@@ -7,6 +7,7 @@
     "@types/node": "^22.15.31",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
+    "tsx": "^4.20.1",
     "typescript": "^5.8.3",
     "vitest": "^3.2.2"
   },
@@ -51,7 +52,11 @@
     "prepublishOnly": "pnpm run build && pnpm run test",
     "release": "pnpm run prepublishOnly && npm publish",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/workflow.integration.test.ts",
+    "example:workflow": "tsx examples/workflow-example.ts",
+    "debug:api": "tsx examples/debug-api.ts",
+    "test:raw": "node examples/raw-api-test.js"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
