@@ -88,7 +88,7 @@ const streamingWorkflow = await client.workflow.runWorkflow({
     if (chunk.event === 'text_chunk' && chunk.data?.text) {
       process.stdout.write(chunk.data.text); // Real-time text streaming
     }
-  }
+  },
 });
 ```
 
@@ -165,7 +165,7 @@ const streamingResponse = await client.workflow.runWorkflow({
     } else if (chunk.event === 'workflow_finished') {
       console.log('\n🏁 Workflow finished!');
     }
-  }
+  },
 });
 
 console.log('Streaming completed!');
@@ -204,7 +204,7 @@ if (runResponse.workflow_run_id) {
   const workflowInfo = await client.workflow.getWorkflow({
     workflow_run_id: runResponse.workflow_run_id,
   });
-  
+
   console.log('Workflow Details:');
   console.log(`- Status: ${workflowInfo.status}`);
   console.log(`- Total Steps: ${workflowInfo.total_steps}`);
@@ -229,11 +229,13 @@ const workflowResponse = await client.workflow.runWorkflow({
   },
   user: 'user-123',
   response_mode: 'blocking',
-  files: [{
-    type: 'document',
-    transfer_method: 'local_file',
-    upload_file_id: fileResponse.id,
-  }],
+  files: [
+    {
+      type: 'document',
+      transfer_method: 'local_file',
+      upload_file_id: fileResponse.id,
+    },
+  ],
 });
 ```
 
@@ -245,30 +247,31 @@ The main client class that provides access to all API modules:
 
 ```typescript
 const client = new DifyClient({
-  baseUrl: 'https://api.dify.ai/v1',  // Required: Your Dify API base URL
-  apiKey: 'your-api-key',             // Required: Your API key
-  defaultResponseMode: 'blocking',    // Optional: 'blocking' | 'streaming'
-  defaultUser: 'default-user',        // Optional: Default user ID for requests
-  requestOptions: {                   // Optional: Additional request configuration
+  baseUrl: 'https://api.dify.ai/v1', // Required: Your Dify API base URL
+  apiKey: 'your-api-key', // Required: Your API key
+  defaultResponseMode: 'blocking', // Optional: 'blocking' | 'streaming'
+  defaultUser: 'default-user', // Optional: Default user ID for requests
+  requestOptions: {
+    // Optional: Additional request configuration
     extraHeaders: {
       'Custom-Header': 'value',
       'X-Source': 'my-app',
     },
-    timeout: 30000,                   // Request timeout in milliseconds
+    timeout: 30000, // Request timeout in milliseconds
   },
 });
 ```
 
 #### Configuration Options
 
-| Option | Type | Required | Default | Description |
-|--------|------|----------|---------|-------------|
-| `baseUrl` | string | ✅ | - | Your Dify API base URL (e.g., `https://api.dify.ai/v1`) |
-| `apiKey` | string | ✅ | - | Your application API key from Dify dashboard |
-| `defaultResponseMode` | `'blocking' \| 'streaming'` | ❌ | `'blocking'` | Default response mode for API calls |
-| `defaultUser` | string | ❌ | - | Default user ID to use when not specified in requests |
-| `requestOptions.extraHeaders` | Record<string, string> | ❌ | `{}` | Additional HTTP headers to include in requests |
-| `requestOptions.timeout` | number | ❌ | `60000` | Request timeout in milliseconds |
+| Option                        | Type                        | Required | Default      | Description                                             |
+| ----------------------------- | --------------------------- | -------- | ------------ | ------------------------------------------------------- |
+| `baseUrl`                     | string                      | ✅       | -            | Your Dify API base URL (e.g., `https://api.dify.ai/v1`) |
+| `apiKey`                      | string                      | ✅       | -            | Your application API key from Dify dashboard            |
+| `defaultResponseMode`         | `'blocking' \| 'streaming'` | ❌       | `'blocking'` | Default response mode for API calls                     |
+| `defaultUser`                 | string                      | ❌       | -            | Default user ID to use when not specified in requests   |
+| `requestOptions.extraHeaders` | Record<string, string>      | ❌       | `{}`         | Additional HTTP headers to include in requests          |
+| `requestOptions.timeout`      | number                      | ❌       | `60000`      | Request timeout in milliseconds                         |
 
 #### Environment Variables
 
@@ -346,7 +349,7 @@ try {
   console.log('Success:', response.answer);
 } catch (error) {
   console.error('API Error:', error.message);
-  
+
   // Handle specific error types
   if (error.message.includes('unauthorized')) {
     console.error('Check your API key');
@@ -365,17 +368,17 @@ try {
     user: 'user-123',
     response_mode: 'blocking',
   });
-  
+
   // Check workflow execution status
   if (response.data.status === 'failed') {
     console.error('Workflow failed:', response.data.error);
     return;
   }
-  
+
   console.log('Workflow succeeded:', response.data.outputs);
 } catch (error) {
   console.error('Workflow execution error:', error.message);
-  
+
   // Handle specific workflow errors
   if (error.message.includes('workflow not found')) {
     console.error('Check your workflow ID and permissions');
@@ -399,12 +402,12 @@ try {
         console.error('Streaming error:', chunk.data?.error);
         return;
       }
-      
+
       // Process successful chunks
       if (chunk.event === 'text_chunk' && chunk.data?.text) {
         process.stdout.write(chunk.data.text);
       }
-    }
+    },
   });
 } catch (error) {
   if (error.message.includes('Streaming is not supported')) {
@@ -455,11 +458,13 @@ Before running examples, ensure you have:
 **Location**: `examples/comprehensive-workflow-demo.ts`
 
 **Run Command**:
+
 ```bash
 npm run example:workflow
 ```
 
 **What it demonstrates**:
+
 - ✅ Blocking workflow execution with timing
 - 🔄 Streaming workflow execution with real-time text output
 - ⚙️ Custom input parameters
@@ -468,6 +473,7 @@ npm run example:workflow
 - 🎬 Event handling for different workflow stages
 
 **Sample Output**:
+
 ```
 🎯 Comprehensive Dify Workflow Demo
 ===================================
@@ -496,11 +502,13 @@ Here's a short story about a curious robot... [streaming text appears here]
 **Location**: `examples/debug-api.ts`
 
 **Run Command**:
+
 ```bash
 npm run debug:api
 ```
 
 **What it demonstrates**:
+
 - 🔍 App info and parameters retrieval
 - 💬 Chat completion API usage
 - 🔧 Workflow API with detailed logging
@@ -511,11 +519,13 @@ npm run debug:api
 **Location**: `examples/raw-api-test.js`
 
 **Run Command**:
+
 ```bash
 npm run test:raw
 ```
 
 **What it demonstrates**:
+
 - 🧪 Low-level API testing with raw fetch calls
 - 📡 Direct HTTP request/response analysis
 - 🔧 API connectivity troubleshooting
@@ -529,10 +539,10 @@ Most examples include API credentials that you'll need to update:
 // Update these values in the example files
 const client = new DifyClient({
   baseUrl: 'https://api.dify.ai/v1', // Your Dify instance URL
-  apiKey: 'your-api-key-here',       // Your workflow/app API key
+  apiKey: 'your-api-key-here', // Your workflow/app API key
 });
 
-const userId = 'your-user-id';       // Your user identifier
+const userId = 'your-user-id'; // Your user identifier
 ```
 
 ### Example Output Features
@@ -566,9 +576,9 @@ async function myCustomExample() {
       chunkCompletionCallback: (chunk) => {
         // Handle streaming chunks
         console.log('Received chunk:', chunk.event);
-      }
+      },
     });
-    
+
     console.log('Success:', response);
   } catch (error) {
     console.error('Error:', error.message);
