@@ -1,5 +1,5 @@
-import { expect, test, describe } from 'vitest';
-import { DifyClient, ChatAPI, ConversationAPI, WorkflowAPI, FileAPI, AppAPI } from '../src/index.js';
+import { describe, expect, test } from 'vitest';
+import { AppAPI, ChatAPI, ConversationAPI, DifyClient, FileAPI, WorkflowAPI } from '../src/index.js';
 
 describe('Dify Client', () => {
   test('should export DifyClient class', () => {
@@ -18,7 +18,7 @@ describe('Dify Client', () => {
   test('should create DifyClient instance', () => {
     const client = new DifyClient({
       baseUrl: 'https://api.dify.ai',
-      apiKey: 'test-key'
+      apiKey: 'test-key',
     });
 
     expect(client).toBeInstanceOf(DifyClient);
@@ -32,12 +32,12 @@ describe('Dify Client', () => {
   test('should allow config updates', () => {
     const client = new DifyClient({
       baseUrl: 'https://api.dify.ai',
-      apiKey: 'test-key'
+      apiKey: 'test-key',
     });
 
-    client.updateConfig({ 
+    client.updateConfig({
       defaultResponseMode: 'streaming',
-      defaultUser: 'test-user'
+      defaultUser: 'test-user',
     });
 
     const config = client.getConfig();

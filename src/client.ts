@@ -3,66 +3,66 @@
  * Provides a unified interface to all Dify API endpoints
  */
 
+import { AppAPI } from './app.js';
 import { ChatAPI } from './chat.js';
 import { ConversationAPI } from './conversation.js';
-import { WorkflowAPI } from './workflow.js';
 import { FileAPI } from './file.js';
-import { AppAPI } from './app.js';
 import type {
-  DifyConfiguration,
-  HttpClientConfig,
-  // Chat types
-  SendMessageParams,
-  ChatCompletionResponse,
+  AppInfo,
+  AppMeta,
+  // App types
+  AppParameters,
+  AudioToTextParams,
+  AudioToTextResult,
   ChatChunkCompletionResponse,
-  StopMessageResponseParams,
-  StopMessageResponseResult,
+  ChatCompletionResponse,
+  CompletionMessageChunkResponse,
+  CompletionMessageResponse,
   CreateMessageFeedbackParams,
   CreateMessageFeedbackResult,
-  GetMessageSuggestsParams,
-  GetMessageSuggestsResult,
+  DeleteConversationParams,
+  DeleteConversationResult,
+  DifyConfiguration,
   // Conversation types
   GetConversationsParams,
   GetConversationsResponse,
-  DeleteConversationParams,
-  DeleteConversationResult,
-  RenameConversationParams,
-  RenameConversationResult,
+  GetMessageSuggestsParams,
+  GetMessageSuggestsResult,
   GetMessagesParams,
   GetMessagesResponse,
-  // Workflow types
-  WorkflowRunParams,
-  WorkflowCompletionResponse,
-  WorkflowChunkResponse,
-  GetWorkflowParams,
-  GetWorkflowResult,
-  StopWorkflowTaskParams,
-  StopWorkflowTaskResult,
   GetWorkflowLogsParams,
   GetWorkflowLogsResult,
+  GetWorkflowParams,
+  GetWorkflowResult,
+  HttpClientConfig,
+  RenameConversationParams,
+  RenameConversationResult,
+  // Completion types
+  SendCompletionMessageParams,
+  // Chat types
+  SendMessageParams,
+  StopCompletionMessageParams,
+  StopCompletionMessageResult,
+  StopMessageResponseParams,
+  StopMessageResponseResult,
+  StopWorkflowTaskParams,
+  StopWorkflowTaskResult,
   // File types
   UploadFileParams,
   UploadFileResult,
-  AudioToTextParams,
-  AudioToTextResult,
-  // App types
-  AppParameters,
-  AppInfo,
-  AppMeta,
-  // Completion types
-  SendCompletionMessageParams,
-  CompletionMessageResponse,
-  CompletionMessageChunkResponse,
-  StopCompletionMessageParams,
-  StopCompletionMessageResult,
+  WorkflowChunkResponse,
+  WorkflowCompletionResponse,
+  // Workflow types
+  WorkflowRunParams,
 } from './types.js';
+import { WorkflowAPI } from './workflow.js';
 
 /**
  * Main Dify API Client
  */
 export class DifyClient {
   private config: DifyConfiguration;
-  
+
   // API modules
   public readonly chat: ChatAPI;
   public readonly conversation: ConversationAPI;
@@ -92,7 +92,7 @@ export class DifyClient {
    */
   public updateConfig(newConfig: Partial<DifyConfiguration>): void {
     this.config = { ...this.config, ...newConfig };
-    
+
     // Re-initialize API modules with new config
     Object.assign(this.chat, new ChatAPI(this.config));
     Object.assign(this.conversation, new ConversationAPI(this.config));
@@ -284,7 +284,9 @@ export class DifyClient {
   /**
    * @deprecated Use client.app.sendCompletionMessage() with streaming mode instead
    */
-  async sendCompletionMessageStream(params: SendCompletionMessageParams): Promise<AsyncIterableIterator<CompletionMessageChunkResponse>> {
+  async sendCompletionMessageStream(
+    params: SendCompletionMessageParams,
+  ): Promise<AsyncIterableIterator<CompletionMessageChunkResponse>> {
     const streamParams = { ...params, response_mode: 'streaming' as const };
     const result = await this.app.sendCompletionMessage(streamParams);
     if (!Array.isArray(result)) {

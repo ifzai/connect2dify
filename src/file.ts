@@ -3,15 +3,15 @@
  */
 
 import type {
-  UploadFileParams,
-  UploadFileResponse,
   AudioToTextParams,
   AudioToTextResult,
-  TextToAudioParams,
   DifyConfiguration,
+  TextToAudioParams,
+  UploadFileParams,
+  UploadFileResponse,
 } from './types.js';
 
-import { createHeaders, handleResponse, buildURL, createFormData } from './utils.js';
+import { buildURL, createFormData, createHeaders, handleResponse } from './utils.js';
 
 /**
  * File and Media API methods

@@ -3,16 +3,16 @@
  */
 
 import type {
-  GetConversationsParams,
-  GetConversationsResponse,
   DeleteConversationParams,
   DeleteConversationResult,
+  DifyConfiguration,
+  GetConversationsParams,
+  GetConversationsResponse,
   RenameConversationParams,
   RenameConversationResult,
-  DifyConfiguration,
 } from './types.js';
 
-import { createHeaders, handleResponse, buildURL } from './utils.js';
+import { buildURL, createHeaders, handleResponse } from './utils.js';
 
 /**
  * Conversation API methods

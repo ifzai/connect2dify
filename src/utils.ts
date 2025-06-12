@@ -4,11 +4,11 @@
 
 import type {
   ChatChunkCompletionResponse,
-  WorkflowChunkResponse,
   CompletionMessageChunkResponse,
-  SendMessageParams,
-  WorkflowRunParams,
   SendCompletionMessageParams,
+  SendMessageParams,
+  WorkflowChunkResponse,
+  WorkflowRunParams,
 } from './types.js';
 
 /**
@@ -60,11 +60,7 @@ export function parseSSEChunk(chunkData: string): unknown | null {
 /**
  * Processes buffer and extracts complete SSE chunks
  */
-export function processSSEBuffer<T>(
-  buffer: string,
-  chunks: T[],
-  onChunk?: (chunk: T) => void,
-): string {
+export function processSSEBuffer<T>(buffer: string, chunks: T[], onChunk?: (chunk: T) => void): string {
   const splitMark = '\n\n';
   let remainingBuffer = buffer;
 
@@ -88,10 +84,7 @@ export function processSSEBuffer<T>(
 /**
  * Handles streaming response using modern fetch API
  */
-export async function handleStreamResponse<T>(
-  response: Response,
-  onChunk?: (chunk: T) => void,
-): Promise<T[]> {
+export async function handleStreamResponse<T>(response: Response, onChunk?: (chunk: T) => void): Promise<T[]> {
   if (!response.body) {
     throw new Error('Response body is empty');
   }
@@ -127,8 +120,7 @@ export async function handleStreamResponse<T>(
  */
 export function isStreamingSupported(): boolean {
   try {
-    return typeof ReadableStream !== 'undefined' && 
-           new Response(new ReadableStream()).body?.getReader() !== undefined;
+    return typeof ReadableStream !== 'undefined' && new Response(new ReadableStream()).body?.getReader() !== undefined;
   } catch {
     return false;
   }
@@ -149,12 +141,12 @@ export function createFormData(params: { file: File | Blob; user: string }): For
  */
 export function buildURL(baseUrl: string, path: string, params: Record<string, string> = {}): string {
   const url = new URL(path, baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
-  
+
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null) {
       url.searchParams.set(key, value);
     }
   }
-  
+
   return url.toString();
 }

@@ -3,27 +3,21 @@
  */
 
 import type {
-  SendMessageParams,
-  ChatCompletionResponse,
   ChatChunkCompletionResponse,
-  GetMessagesParams,
-  GetMessagesResponse,
+  ChatCompletionResponse,
   CreateMessageFeedbackParams,
   CreateMessageFeedbackResult,
+  DifyConfiguration,
   GetMessageSuggestsParams,
   GetMessageSuggestsResult,
+  GetMessagesParams,
+  GetMessagesResponse,
+  SendMessageParams,
   StopMessageResponseParams,
   StopMessageResponseResult,
-  DifyConfiguration,
 } from './types.js';
 
-import {
-  createHeaders,
-  handleResponse,
-  handleStreamResponse,
-  isStreamingSupported,
-  buildURL,
-} from './utils.js';
+import { buildURL, createHeaders, handleResponse, handleStreamResponse, isStreamingSupported } from './utils.js';
 
 /**
  * Chat API methods
@@ -36,9 +30,7 @@ export class ChatAPI {
    * @param params - Message parameters
    * @returns Promise resolving to chat completion response or stream chunks
    */
-  async sendMessage(
-    params: SendMessageParams,
-  ): Promise<ChatCompletionResponse | ChatChunkCompletionResponse[]> {
+  async sendMessage(params: SendMessageParams): Promise<ChatCompletionResponse | ChatChunkCompletionResponse[]> {
     const url = buildURL(this.config.baseUrl, 'v1/chat-messages');
     const body = { inputs: {}, ...params };
 
@@ -86,9 +78,7 @@ export class ChatAPI {
    * @param params - Feedback parameters
    * @returns Promise resolving to feedback result
    */
-  async createMessageFeedback(
-    params: CreateMessageFeedbackParams,
-  ): Promise<CreateMessageFeedbackResult> {
+  async createMessageFeedback(params: CreateMessageFeedbackParams): Promise<CreateMessageFeedbackResult> {
     const url = buildURL(this.config.baseUrl, `v1/messages/${params.message_id}/feedbacks`);
 
     const response = await fetch(url, {
@@ -111,11 +101,7 @@ export class ChatAPI {
    */
   async getMessageSuggests(params: GetMessageSuggestsParams): Promise<GetMessageSuggestsResult> {
     const queryParams = { user: params.user };
-    const url = buildURL(
-      this.config.baseUrl,
-      `v1/messages/${params.message_id}/suggested`,
-      queryParams,
-    );
+    const url = buildURL(this.config.baseUrl, `v1/messages/${params.message_id}/suggested`, queryParams);
 
     const response = await fetch(url, {
       method: 'GET',
@@ -130,9 +116,7 @@ export class ChatAPI {
    * @param params - Stop parameters
    * @returns Promise resolving to stop result
    */
-  async stopMessageResponse(
-    params: StopMessageResponseParams,
-  ): Promise<StopMessageResponseResult> {
+  async stopMessageResponse(params: StopMessageResponseParams): Promise<StopMessageResponseResult> {
     const url = buildURL(this.config.baseUrl, `v1/chat-messages/${params.task_id}/stop`);
 
     const response = await fetch(url, {

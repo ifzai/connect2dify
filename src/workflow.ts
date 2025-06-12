@@ -3,24 +3,19 @@
  */
 
 import type {
-  WorkflowRunParams,
-  WorkflowCompletionResponse,
-  WorkflowChunkResponse,
+  DifyConfiguration,
+  GetWorkflowLogsParams,
+  GetWorkflowLogsResult,
   GetWorkflowParams,
   GetWorkflowResult,
   StopWorkflowTaskParams,
   StopWorkflowTaskResult,
-  GetWorkflowLogsParams,
-  GetWorkflowLogsResult,
-  DifyConfiguration,
+  WorkflowChunkResponse,
+  WorkflowCompletionResponse,
+  WorkflowRunParams,
 } from './types.js';
 
-import {
-  createHeaders,
-  handleResponse,
-  handleStreamResponse,
-  buildURL,
-} from './utils.js';
+import { buildURL, createHeaders, handleResponse, handleStreamResponse } from './utils.js';
 
 /**
  * Workflow API methods
@@ -33,9 +28,7 @@ export class WorkflowAPI {
    * @param params - Workflow run parameters
    * @returns Promise resolving to workflow completion response or stream chunks
    */
-  async runWorkflow(
-    params: WorkflowRunParams,
-  ): Promise<WorkflowCompletionResponse | WorkflowChunkResponse[]> {
+  async runWorkflow(params: WorkflowRunParams): Promise<WorkflowCompletionResponse | WorkflowChunkResponse[]> {
     const url = buildURL(this.config.baseUrl, 'v1/workflows/run');
     const isStreaming = params.response_mode === 'streaming';
 
@@ -114,10 +107,7 @@ export class WorkflowAPI {
    * Handle workflow streaming responses
    * @private
    */
-  private async handleWorkflowStream(
-    params: WorkflowRunParams,
-    url: string,
-  ): Promise<WorkflowChunkResponse[]> {
+  private async handleWorkflowStream(params: WorkflowRunParams, url: string): Promise<WorkflowChunkResponse[]> {
     const response = await fetch(url, {
       method: 'POST',
       headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),

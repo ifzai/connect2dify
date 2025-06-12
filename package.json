@@ -17,9 +17,7 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "./dist/index.cjs",
   "name": "@ifzai/connect2dify",
   "private": false,
@@ -35,13 +33,7 @@
   "bugs": {
     "url": "https://github.com/ifz-ai/connect2dify/issues"
   },
-  "keywords": [
-    "dify",
-    "connect",
-    "api",
-    "client",
-    "typescript"
-  ],
+  "keywords": ["dify", "connect", "api", "client", "typescript"],
   "author": {
     "name": "silo",
     "email": "hello@ifz.ai"

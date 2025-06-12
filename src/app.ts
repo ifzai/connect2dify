@@ -3,23 +3,18 @@
  */
 
 import type {
-  AppParameters,
   AppInfo,
   AppMeta,
-  SendCompletionMessageParams,
-  CompletionMessageResponse,
+  AppParameters,
   CompletionMessageChunkResponse,
+  CompletionMessageResponse,
+  DifyConfiguration,
+  SendCompletionMessageParams,
   StopCompletionMessageParams,
   StopCompletionMessageResult,
-  DifyConfiguration,
 } from './types.js';
 
-import {
-  createHeaders,
-  handleResponse,
-  handleStreamResponse,
-  buildURL,
-} from './utils.js';
+import { buildURL, createHeaders, handleResponse, handleStreamResponse } from './utils.js';
 
 /**
  * Application and Completion API methods
@@ -110,10 +105,7 @@ export class AppAPI {
       throw new Error(`Request failed: ${response.status} ${response.statusText}`);
     }
 
-    return handleStreamResponse<CompletionMessageChunkResponse>(
-      response,
-      params.chunkCompletionCallback,
-    );
+    return handleStreamResponse<CompletionMessageChunkResponse>(response, params.chunkCompletionCallback);
   }
 
   /**
@@ -121,9 +113,7 @@ export class AppAPI {
    * @param params - Stop parameters
    * @returns Promise resolving to stop result
    */
-  async stopCompletionMessage(
-    params: StopCompletionMessageParams,
-  ): Promise<StopCompletionMessageResult> {
+  async stopCompletionMessage(params: StopCompletionMessageParams): Promise<StopCompletionMessageResult> {
     const url = buildURL(this.config.baseUrl, `v1/completion-messages/${params.task_id}/stop`);
 
     const response = await fetch(url, {

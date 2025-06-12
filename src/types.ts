@@ -527,32 +527,15 @@ export const MIME_MAP = {
     ],
   },
   image: {
-    mimeTypes: [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'image/webp',
-      'image/svg+xml',
-    ],
+    mimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'],
     extensions: ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'],
   },
   audio: {
-    mimeTypes: [
-      'audio/mpeg',
-      'audio/mp4',
-      'audio/wav',
-      'audio/webm',
-      'audio/amr',
-    ],
+    mimeTypes: ['audio/mpeg', 'audio/mp4', 'audio/wav', 'audio/webm', 'audio/amr'],
     extensions: ['.mp3', '.mpga', '.m4a', '.wav', '.webm', '.amr'],
   },
   video: {
-    mimeTypes: [
-      'video/mp4',
-      'video/quicktime',
-      'video/mpeg',
-      'audio/mpeg',
-    ],
+    mimeTypes: ['video/mp4', 'video/quicktime', 'video/mpeg', 'audio/mpeg'],
     extensions: ['.mp4', '.mov', '.mpeg', '.mpg', '.mpe'],
   },
 } as const;
@@ -566,18 +549,9 @@ export type DifyActionDefinition = {
     ChatChunkCompletionResponse,
   ];
   'chatflow-/files/upload': [UploadFileParams, UploadFileResponse];
-  'chatflow-/chat-messages/:task_id/stop': [
-    StopMessageResponseParams,
-    StopMessageResponseResult,
-  ];
-  'chatflow-/messages/:message_id/feedbacks': [
-    CreateMessageFeedbackParams,
-    CreateMessageFeedbackResult,
-  ];
-  'chatflow-/messages/{message_id}/suggested': [
-    GetMessageSuggestsParams,
-    GetMessageSuggestsResult,
-  ];
+  'chatflow-/chat-messages/:task_id/stop': [StopMessageResponseParams, StopMessageResponseResult];
+  'chatflow-/messages/:message_id/feedbacks': [CreateMessageFeedbackParams, CreateMessageFeedbackResult];
+  'chatflow-/messages/{message_id}/suggested': [GetMessageSuggestsParams, GetMessageSuggestsResult];
   'chatflow-/messages': [GetMessagesParams, GetMessagesResponse];
   'chatflow-/conversations': [GetConversationsParams, GetConversationsResponse];
   'workflow-/workflows/run': [
@@ -586,25 +560,18 @@ export type DifyActionDefinition = {
     WorkflowCompletionResponse,
     WorkflowChunkResponse,
   ];
-  'workflow-/workflows/tasks/:task_id/stop': [
-    StopWorkflowTaskParams,
-    StopWorkflowTaskResult,
-  ];
+  'workflow-/workflows/tasks/:task_id/stop': [StopWorkflowTaskParams, StopWorkflowTaskResult];
 };
 
 export type DifyActionType = keyof DifyActionDefinition;
 export type DifyActionParams<T extends DifyActionType> = DifyActionDefinition[T][0];
 export type DifyActionReturnData<T extends DifyActionType> = DifyActionDefinition[T][1];
-export type DifyActionFn<T extends DifyActionType> = (
-  params: DifyActionParams<T>,
-) => DifyActionReturnData<T>;
+export type DifyActionFn<T extends DifyActionType> = (params: DifyActionParams<T>) => DifyActionReturnData<T>;
 
 export type DifyActionBlockResponse<T extends DifyActionType> = DifyActionDefinition[T][2];
 export type DifyActionStreamResponse<T extends DifyActionType> = DifyActionDefinition[T][3];
 
-export type DifyActionPath<T extends DifyActionType> = T extends `${infer Name}-${infer Path}`
-  ? Path
-  : never;
+export type DifyActionPath<T extends DifyActionType> = T extends `${infer Name}-${infer Path}` ? Path : never;
 
 export type DifyRequestFnCallbacks<Action extends DifyActionType> = {
   onUpdate?: (message: DifyActionStreamResponse<Action>) => void;
@@ -612,8 +579,9 @@ export type DifyRequestFnCallbacks<Action extends DifyActionType> = {
   onError?: (error: Error) => void;
 };
 
-export type WithResponseModeParams<Action extends DifyActionType> =
-  DifyActionParams<Action> extends WithResponseMode ? DifyActionParams<Action> : never;
+export type WithResponseModeParams<Action extends DifyActionType> = DifyActionParams<Action> extends WithResponseMode
+  ? DifyActionParams<Action>
+  : never;
 
 export type WithInputsParams<Action extends DifyActionType> = DifyActionParams<Action> extends WithInputs
   ? DifyActionParams<Action>
