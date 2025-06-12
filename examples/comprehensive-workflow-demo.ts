@@ -57,16 +57,12 @@ async function comprehensiveWorkflowDemo() {
       console.log(`- Elapsed Time: ${blockingResponse.data.elapsed_time}s`);
 
       if (blockingResponse.data.outputs) {
-        console.log(
-          '- Output keys:',
-          Object.keys(blockingResponse.data.outputs),
-        );
+        console.log('- Output keys:', Object.keys(blockingResponse.data.outputs));
       }
     }
     console.log('\n');
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ Blocking workflow failed:', errorMessage);
     console.log('\n');
   }
@@ -96,10 +92,7 @@ async function comprehensiveWorkflowDemo() {
       // Show first and last chunk
       if (streamingResponse.length > 0) {
         console.log('- First chunk event:', streamingResponse[0].event);
-        console.log(
-          '- Last chunk event:',
-          streamingResponse[streamingResponse.length - 1].event,
-        );
+        console.log('- Last chunk event:', streamingResponse[streamingResponse.length - 1].event);
       }
 
       // Count different event types
@@ -115,8 +108,7 @@ async function comprehensiveWorkflowDemo() {
     }
     console.log('\n');
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ Streaming workflow failed:', errorMessage);
     console.log('\n');
   }
@@ -142,8 +134,7 @@ async function comprehensiveWorkflowDemo() {
     }
     console.log('\n');
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ Custom inputs workflow failed:', errorMessage);
     console.log('\n');
   }
@@ -171,9 +162,7 @@ async function comprehensiveWorkflowDemo() {
       user: userId,
       response_mode: 'blocking',
     });
-    console.log(
-      '⚠️  Empty inputs were accepted (might be valid for some workflows)',
-    );
+    console.log('⚠️  Empty inputs were accepted (might be valid for some workflows)');
   } catch (error: unknown) {
     console.log('✅ Empty inputs properly rejected');
   }
@@ -211,16 +200,13 @@ async function comprehensiveWorkflowDemo() {
         console.log(`- Total Tokens: ${workflowInfo.total_tokens}`);
       } else {
         console.log('⚠️  Workflow run information returned null values');
-        console.log(
-          'This might indicate the endpoint expects different parameters',
-        );
+        console.log('This might indicate the endpoint expects different parameters');
       }
     } else {
       console.log('❌ No workflow_run_id found in response');
     }
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ Getting workflow run information failed:', errorMessage);
   }
 
