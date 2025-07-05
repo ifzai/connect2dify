@@ -36,7 +36,7 @@ async function debugDifyAPI() {
   try {
     const appInfo = await client.app.getInfo();
     console.log(`✅ App mode: ${appInfo.mode}`);
-    
+
     if (appInfo.mode === 'workflow') {
       console.log('ℹ️  This is a workflow app, skipping chat completion test');
     } else {
