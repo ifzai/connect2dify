@@ -25,7 +25,9 @@ export class ConversationAPI {
    * @param params - Query parameters
    * @returns Promise resolving to conversations response
    */
-  async getConversations(params: GetConversationsParams): Promise<GetConversationsResponse> {
+  async getConversations(
+    params: GetConversationsParams,
+  ): Promise<GetConversationsResponse> {
     const queryParams: Record<string, string> = { user: params.user };
 
     if (params.last_id) queryParams.last_id = params.last_id;
@@ -35,7 +37,11 @@ export class ConversationAPI {
     const url = buildURL(this.config.baseUrl, 'conversations', queryParams);
 
     const response = await fetch(url, {
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+        false,
+      ),
       method: 'GET',
     });
 
@@ -47,12 +53,20 @@ export class ConversationAPI {
    * @param params - Delete parameters
    * @returns Promise resolving to delete result
    */
-  async deleteConversation(params: DeleteConversationParams): Promise<DeleteConversationResult> {
-    const url = buildURL(this.config.baseUrl, `conversations/${params.conversation_id}`);
+  async deleteConversation(
+    params: DeleteConversationParams,
+  ): Promise<DeleteConversationResult> {
+    const url = buildURL(
+      this.config.baseUrl,
+      `conversations/${params.conversation_id}`,
+    );
 
     const response = await fetch(url, {
       method: 'DELETE',
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+      ),
       body: JSON.stringify({ user: params.user }),
     });
 
@@ -64,12 +78,20 @@ export class ConversationAPI {
    * @param params - Rename parameters
    * @returns Promise resolving to rename result
    */
-  async renameConversation(params: RenameConversationParams): Promise<RenameConversationResult> {
-    const url = buildURL(this.config.baseUrl, `conversations/${params.conversation_id}/name`);
+  async renameConversation(
+    params: RenameConversationParams,
+  ): Promise<RenameConversationResult> {
+    const url = buildURL(
+      this.config.baseUrl,
+      `conversations/${params.conversation_id}/name`,
+    );
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
+      headers: createHeaders(
+        this.config.apiKey,
+        this.config.requestOptions?.extraHeaders,
+      ),
       body: JSON.stringify({
         name: params.name,
         auto_generate: params.auto_generate,
