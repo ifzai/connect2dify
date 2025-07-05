@@ -369,6 +369,8 @@ export interface AppInfo {
   privacy_policy: string;
   custom_disclaimer: string;
   tags: string[];
+  mode: 'chat' | 'workflow' | 'completion';
+  author_name: string;
 }
 
 export interface AppMeta {

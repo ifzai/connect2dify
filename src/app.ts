@@ -75,7 +75,7 @@ export class AppAPI {
   async sendCompletionMessage(
     params: SendCompletionMessageParams,
   ): Promise<CompletionMessageResponse | CompletionMessageChunkResponse[]> {
-    const url = buildURL(this.config.baseUrl, 'v1/completion-messages');
+    const url = buildURL(this.config.baseUrl, 'completion-messages');
     const body = {
       inputs: params.inputs || {},
       response_mode: params.response_mode,
@@ -114,7 +114,7 @@ export class AppAPI {
    * @returns Promise resolving to stop result
    */
   async stopCompletionMessage(params: StopCompletionMessageParams): Promise<StopCompletionMessageResult> {
-    const url = buildURL(this.config.baseUrl, `v1/completion-messages/${params.task_id}/stop`);
+    const url = buildURL(this.config.baseUrl, `completion-messages/${params.task_id}/stop`);
 
     const response = await fetch(url, {
       method: 'POST',

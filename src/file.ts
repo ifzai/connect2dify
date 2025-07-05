@@ -25,7 +25,7 @@ export class FileAPI {
    * @returns Promise resolving to upload response
    */
   async uploadFile(params: UploadFileParams): Promise<UploadFileResponse> {
-    const url = buildURL(this.config.baseUrl, 'v1/files/upload');
+    const url = buildURL(this.config.baseUrl, 'files/upload');
     const formData = createFormData(params);
 
     const response = await fetch(url, {
@@ -43,7 +43,7 @@ export class FileAPI {
    * @returns Promise resolving to transcription result
    */
   async audioToText(params: AudioToTextParams): Promise<AudioToTextResult> {
-    const url = buildURL(this.config.baseUrl, 'v1/audio-to-text');
+    const url = buildURL(this.config.baseUrl, 'audio-to-text');
     const formData = createFormData(params);
 
     const response = await fetch(url, {
@@ -61,7 +61,7 @@ export class FileAPI {
    * @returns Promise resolving to audio blob
    */
   async textToAudio(params: TextToAudioParams): Promise<Blob> {
-    const url = buildURL(this.config.baseUrl, 'v1/text-to-audio');
+    const url = buildURL(this.config.baseUrl, 'text-to-audio');
 
     const response = await fetch(url, {
       method: 'POST',

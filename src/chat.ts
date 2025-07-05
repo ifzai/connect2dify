@@ -31,7 +31,7 @@ export class ChatAPI {
    * @returns Promise resolving to chat completion response or stream chunks
    */
   async sendMessage(params: SendMessageParams): Promise<ChatCompletionResponse | ChatChunkCompletionResponse[]> {
-    const url = buildURL(this.config.baseUrl, 'v1/chat-messages');
+    const url = buildURL(this.config.baseUrl, 'chat-messages');
     const body = { inputs: {}, ...params };
 
     // Handle streaming mode
@@ -63,7 +63,7 @@ export class ChatAPI {
     if (params.first_id) queryParams.first_id = params.first_id;
     if (params.limit) queryParams.limit = String(params.limit);
 
-    const url = buildURL(this.config.baseUrl, 'v1/messages', queryParams);
+    const url = buildURL(this.config.baseUrl, 'messages', queryParams);
 
     const response = await fetch(url, {
       headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
@@ -79,7 +79,7 @@ export class ChatAPI {
    * @returns Promise resolving to feedback result
    */
   async createMessageFeedback(params: CreateMessageFeedbackParams): Promise<CreateMessageFeedbackResult> {
-    const url = buildURL(this.config.baseUrl, `v1/messages/${params.message_id}/feedbacks`);
+    const url = buildURL(this.config.baseUrl, `messages/${params.message_id}/feedbacks`);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -101,7 +101,7 @@ export class ChatAPI {
    */
   async getMessageSuggests(params: GetMessageSuggestsParams): Promise<GetMessageSuggestsResult> {
     const queryParams = { user: params.user };
-    const url = buildURL(this.config.baseUrl, `v1/messages/${params.message_id}/suggested`, queryParams);
+    const url = buildURL(this.config.baseUrl, `messages/${params.message_id}/suggested`, queryParams);
 
     const response = await fetch(url, {
       method: 'GET',
@@ -117,7 +117,7 @@ export class ChatAPI {
    * @returns Promise resolving to stop result
    */
   async stopMessageResponse(params: StopMessageResponseParams): Promise<StopMessageResponseResult> {
-    const url = buildURL(this.config.baseUrl, `v1/chat-messages/${params.task_id}/stop`);
+    const url = buildURL(this.config.baseUrl, `chat-messages/${params.task_id}/stop`);
 
     const response = await fetch(url, {
       method: 'POST',

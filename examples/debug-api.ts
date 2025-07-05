@@ -31,15 +31,23 @@ async function debugDifyAPI() {
     console.error('❌ App Parameters failed:', errorMessage);
   }
 
-  // Test 3: Try chat completion instead of workflow
-  console.log('\n3. Testing Chat Completion API...');
+  // Test 3: Skip chat completion for workflow apps
+  console.log('\n3. Checking App Mode...');
   try {
-    const chatResponse = await client.app.sendCompletionMessage({
-      inputs: { query: 'Hello, this is a test.' },
-      user: userId,
-      response_mode: 'blocking',
-    });
-    console.log('✅ Chat Completion:', JSON.stringify(chatResponse, null, 2));
+    const appInfo = await client.app.getInfo();
+    console.log(`✅ App mode: ${appInfo.mode}`);
+    
+    if (appInfo.mode === 'workflow') {
+      console.log('ℹ️  This is a workflow app, skipping chat completion test');
+    } else {
+      console.log('Testing Chat Completion API...');
+      const chatResponse = await client.app.sendCompletionMessage({
+        inputs: { query: 'Hello, this is a test.' },
+        user: userId,
+        response_mode: 'blocking',
+      });
+      console.log('✅ Chat Completion:', JSON.stringify(chatResponse, null, 2));
+    }
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ Chat Completion failed:', errorMessage);

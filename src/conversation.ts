@@ -32,7 +32,7 @@ export class ConversationAPI {
     if (params.limit) queryParams.limit = String(params.limit);
     if (params.sort_by) queryParams.sort_by = params.sort_by;
 
-    const url = buildURL(this.config.baseUrl, 'v1/conversations', queryParams);
+    const url = buildURL(this.config.baseUrl, 'conversations', queryParams);
 
     const response = await fetch(url, {
       headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
@@ -48,7 +48,7 @@ export class ConversationAPI {
    * @returns Promise resolving to delete result
    */
   async deleteConversation(params: DeleteConversationParams): Promise<DeleteConversationResult> {
-    const url = buildURL(this.config.baseUrl, `v1/conversations/${params.conversation_id}`);
+    const url = buildURL(this.config.baseUrl, `conversations/${params.conversation_id}`);
 
     const response = await fetch(url, {
       method: 'DELETE',
@@ -65,7 +65,7 @@ export class ConversationAPI {
    * @returns Promise resolving to rename result
    */
   async renameConversation(params: RenameConversationParams): Promise<RenameConversationResult> {
-    const url = buildURL(this.config.baseUrl, `v1/conversations/${params.conversation_id}/name`);
+    const url = buildURL(this.config.baseUrl, `conversations/${params.conversation_id}/name`);
 
     const response = await fetch(url, {
       method: 'POST',
