@@ -54,10 +54,18 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "example:workflow": "tsx examples/comprehensive-workflow-demo.ts",
+    "example:chat-streaming": "tsx examples/chat-streaming-basic-demo.ts",
+    "example:chat-streaming-callback": "tsx examples/chat-streaming-demo.ts",
+    "example:chat-conversation": "tsx examples/chat-conversation-demo.ts",
+    "example:workflow-blocking": "tsx examples/workflow-blocking-demo.ts",
+    "example:workflow-streaming": "tsx examples/workflow-streaming-demo.ts",
+    "example:app-info": "tsx examples/app-info-demo.ts",
+    "example:api-format": "tsx examples/api-format-demo.ts",
+    "example:api-format-demo": "tsx examples/test-api-formats-demo.ts",
     "debug:api": "tsx examples/debug-api.ts",
     "test:raw": "node examples/raw-api-test.js"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.2"
+  "version": "1.0.5"
 }

@@ -143,7 +143,17 @@ export function createFormData(params: {
  * Builds URL with query parameters
  */
 export function buildURL(baseUrl: string, path: string, params: Record<string, string> = {}): string {
-  const url = new URL(path, baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
+  // Ensure baseUrl ends with /
+  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+
+  // Ensure path doesn't start with /
+  const normalizedPath = path.startsWith('/') ? path.substring(1) : path;
+
+  // Construct the full URL
+  const fullUrl = `${normalizedBaseUrl}${normalizedPath}`;
+
+  // Create URL object to handle query parameters
+  const url = new URL(fullUrl);
 
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null) {

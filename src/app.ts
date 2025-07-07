@@ -14,12 +14,7 @@ import type {
   StopCompletionMessageResult,
 } from './types.js';
 
-import {
-  buildURL,
-  createHeaders,
-  handleResponse,
-  handleStreamResponse,
-} from './utils.js';
+import { buildURL, createHeaders, handleResponse, handleStreamResponse } from './utils.js';
 
 /**
  * Application and Completion API methods
@@ -36,11 +31,7 @@ export class AppAPI {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-        false,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
     });
 
     return handleResponse<AppParameters>(response);
@@ -55,11 +46,7 @@ export class AppAPI {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-        false,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
     });
 
     return handleResponse<AppInfo>(response);
@@ -74,11 +61,7 @@ export class AppAPI {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-        false,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
     });
 
     return handleResponse<AppMeta>(response);
@@ -104,10 +87,7 @@ export class AppAPI {
     if (params.response_mode === 'blocking') {
       const response = await fetch(url, {
         method: 'POST',
-        headers: createHeaders(
-          this.config.apiKey,
-          this.config.requestOptions?.extraHeaders,
-        ),
+        headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
         body: JSON.stringify(body),
       });
 
@@ -117,23 +97,15 @@ export class AppAPI {
     // Handle streaming mode
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
       body: JSON.stringify(body),
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Request failed: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Request failed: ${response.status} ${response.statusText}`);
     }
 
-    return handleStreamResponse<CompletionMessageChunkResponse>(
-      response,
-      params.chunkCompletionCallback,
-    );
+    return handleStreamResponse<CompletionMessageChunkResponse>(response, params.chunkCompletionCallback);
   }
 
   /**
@@ -141,20 +113,12 @@ export class AppAPI {
    * @param params - Stop parameters
    * @returns Promise resolving to stop result
    */
-  async stopCompletionMessage(
-    params: StopCompletionMessageParams,
-  ): Promise<StopCompletionMessageResult> {
-    const url = buildURL(
-      this.config.baseUrl,
-      `completion-messages/${params.task_id}/stop`,
-    );
+  async stopCompletionMessage(params: StopCompletionMessageParams): Promise<StopCompletionMessageResult> {
+    const url = buildURL(this.config.baseUrl, `completion-messages/${params.task_id}/stop`);
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
       body: JSON.stringify({ user: params.user }),
     });
 

@@ -237,9 +237,287 @@ async function comprehensiveWorkflowDemo() {
   console.log('\n🏁 Demo completed!');
 }
 
-// Run the demo if this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  comprehensiveWorkflowDemo().catch(console.error);
+/**
+ * Comprehensive chat demonstration including all chat API features
+ * This example showcases:
+ * - Blocking chat message sending
+ * - Streaming chat message sending
+ * - Conversation management
+ * - Message feedback
+ * - Error handling
+ */
+async function comprehensiveChatDemo() {
+  // Initialize the Dify client with real credentials
+  const client = new DifyClient({
+    baseUrl: 'https://api.dify.ai/v1',
+    apiKey: 'app-D9lvqK3YpGnOetRDA2yIHexo',
+  });
+
+  const userId = '803a546f-98d5-4f09-8b09-f237ae790704';
+
+  console.log('💬 Comprehensive Dify Chat Demo');
+  console.log('===============================\n');
+
+  // Test 1: Blocking chat message
+  console.log('📋 Test 1: Blocking Chat Message');
+  console.log('---------------------------------');
+
+  try {
+    const startTime = Date.now();
+    const chatResponse = await client.chat.sendMessage({
+      query: 'Hello! Can you tell me about artificial intelligence?',
+      user: userId,
+      response_mode: 'blocking',
+      inputs: {},
+    });
+
+    const endTime = Date.now();
+    const executionTime = (endTime - startTime) / 1000;
+
+    console.log(`✅ Blocking chat completed in ${executionTime}s`);
+    console.log('Response structure:');
+
+    if (!Array.isArray(chatResponse)) {
+      console.log(`- Event: ${chatResponse.event}`);
+      console.log(`- Message ID: ${chatResponse.message_id}`);
+      console.log(`- Conversation ID: ${chatResponse.conversation_id}`);
+      console.log(`- Created At: ${new Date(chatResponse.created_at * 1000).toLocaleString()}`);
+
+      if (chatResponse.answer) {
+        console.log(`- Answer length: ${chatResponse.answer.length} characters`);
+        console.log(`- Answer preview: ${chatResponse.answer.substring(0, 100)}...`);
+      }
+
+      if (chatResponse.metadata) {
+        console.log(`- Usage: ${chatResponse.metadata.usage?.total_tokens || 'N/A'} tokens`);
+      }
+    }
+    console.log('\n');
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('❌ Blocking chat failed:', errorMessage);
+    console.log('\n');
+  }
+
+  // Test 2: Streaming chat message
+  console.log('🔄 Test 2: Streaming Chat Message');
+  console.log('----------------------------------');
+
+  try {
+    const startTime = Date.now();
+
+    console.log('🚀 Starting streaming chat...');
+    console.log('📝 Streaming output:');
+    console.log('---');
+
+    let streamedText = '';
+    let chunkCount = 0;
+    let conversationId = '';
+
+    // Use the streaming callback to show real-time output
+    const streamingResponse = await client.chat.sendMessage({
+      query: 'Write a short poem about coding.',
+      user: userId,
+      response_mode: 'streaming',
+      inputs: {},
+      chunkCompletionCallback: (chunk) => {
+        chunkCount++;
+
+        // Show different types of events
+        if (chunk.event === 'message') {
+          console.log(`\n💬 Message started (ID: ${chunk.message_id})`);
+          if (chunk.conversation_id) {
+            conversationId = chunk.conversation_id;
+          }
+        } else if (chunk.event === 'agent_message') {
+          // This is the actual streaming text - show it
+          if (chunk.answer) {
+            process.stdout.write(chunk.answer.slice(streamedText.length));
+            streamedText = chunk.answer;
+          }
+        } else if (chunk.event === 'message_end') {
+          console.log(`\n\n✅ Message completed (ID: ${chunk.message_id})`);
+          if (chunk.metadata?.usage) {
+            console.log(`📊 Usage: ${chunk.metadata.usage.total_tokens} tokens`);
+          }
+        }
+      },
+    });
+
+    const endTime = Date.now();
+    const executionTime = (endTime - startTime) / 1000;
+
+    console.log('\n---');
+    console.log(`✅ Streaming chat completed in ${executionTime}s`);
+    console.log('📊 Statistics:');
+    console.log(`- Total chunks received: ${chunkCount}`);
+    console.log(`- Streamed text length: ${streamedText.length} characters`);
+    console.log(`- Conversation ID: ${conversationId}`);
+
+    console.log('\n');
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('❌ Streaming chat failed:', errorMessage);
+    console.log('\n');
+  }
+
+  // Test 3: Continue conversation
+  console.log('🔗 Test 3: Continue Conversation');
+  console.log('--------------------------------');
+
+  try {
+    // First message to start a conversation
+    const firstMessage = await client.chat.sendMessage({
+      query: 'My name is John. What is your name?',
+      user: userId,
+      response_mode: 'blocking',
+      inputs: {},
+    });
+
+    let conversationId = '';
+    if (!Array.isArray(firstMessage)) {
+      conversationId = firstMessage.conversation_id;
+      console.log(`✅ Started conversation: ${conversationId}`);
+    }
+
+    // Second message in the same conversation
+    if (conversationId) {
+      const secondMessage = await client.chat.sendMessage({
+        query: 'Do you remember my name?',
+        user: userId,
+        response_mode: 'blocking',
+        inputs: {},
+        conversation_id: conversationId,
+      });
+
+      if (!Array.isArray(secondMessage)) {
+        console.log(`✅ Continued conversation: ${secondMessage.conversation_id}`);
+        console.log(`- Answer preview: ${secondMessage.answer?.substring(0, 100)}...`);
+      }
+    }
+
+    console.log('\n');
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('❌ Conversation continuation failed:', errorMessage);
+    console.log('\n');
+  }
+
+  // Test 4: Get conversation messages
+  console.log('📜 Test 4: Get Conversation Messages');
+  console.log('------------------------------------');
+
+  try {
+    // First create a conversation
+    const chatResponse = await client.chat.sendMessage({
+      query: 'This is a test message for conversation history.',
+      user: userId,
+      response_mode: 'blocking',
+      inputs: {},
+    });
+
+    if (!Array.isArray(chatResponse) && chatResponse.conversation_id) {
+      const conversationId = chatResponse.conversation_id;
+
+      // Get messages from the conversation
+      const messages = await client.chat.getMessages({
+        conversation_id: conversationId,
+        user: userId,
+      });
+
+      console.log(`✅ Retrieved ${messages.data.length} messages from conversation`);
+      console.log(`- Has more: ${messages.has_more}`);
+      console.log(`- Limit: ${messages.limit}`);
+
+      if (messages.data.length > 0) {
+        const firstMessage = messages.data[0];
+        console.log(`- First message ID: ${firstMessage.id}`);
+        console.log(`- First message query: ${firstMessage.query}`);
+      }
+    }
+
+    console.log('\n');
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('❌ Getting conversation messages failed:', errorMessage);
+    console.log('\n');
+  }
+
+  // Test 5: Message feedback
+  console.log('👍 Test 5: Message Feedback');
+  console.log('---------------------------');
+
+  try {
+    // First create a message
+    const chatResponse = await client.chat.sendMessage({
+      query: 'This is a test message for feedback.',
+      user: userId,
+      response_mode: 'blocking',
+      inputs: {},
+    });
+
+    if (!Array.isArray(chatResponse) && chatResponse.message_id) {
+      const messageId = chatResponse.message_id;
+
+      // Give positive feedback
+      await client.chat.createMessageFeedback({
+        message_id: messageId,
+        rating: 'like',
+        user: userId,
+      });
+
+      console.log(`✅ Positive feedback sent for message: ${messageId}`);
+    }
+
+    console.log('\n');
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('❌ Message feedback failed:', errorMessage);
+    console.log('\n');
+  }
+
+  console.log('🏁 Chat demo completed!');
 }
 
-export { comprehensiveWorkflowDemo };
+// Combined demo function
+async function runAllDemos() {
+  console.log('🚀 Running All Dify API Demos');
+  console.log('==============================\n');
+
+  // First check if it's a chat app or workflow app
+  const client = new DifyClient({
+    baseUrl: 'https://api.dify.ai/v1',
+    apiKey: 'app-D9lvqK3YpGnOetRDA2yIHexo',
+  });
+
+  try {
+    const appInfo = await client.app.getInfo();
+    console.log(`📱 App: ${appInfo.name}`);
+    console.log(`🔧 Mode: ${appInfo.mode}`);
+    console.log(`👤 Author: ${appInfo.author_name}\n`);
+
+    if (appInfo.mode === 'workflow') {
+      console.log('🔄 Running Workflow Demo...\n');
+      await comprehensiveWorkflowDemo();
+    } else if (appInfo.mode === 'chat') {
+      console.log('💬 Running Chat Demo...\n');
+      await comprehensiveChatDemo();
+    } else {
+      console.log('🔄 Running Workflow Demo...\n');
+      await comprehensiveWorkflowDemo();
+      console.log('\n💬 Running Chat Demo...\n');
+      await comprehensiveChatDemo();
+    }
+  } catch (error: unknown) {
+    console.error('❌ Failed to get app info:', error);
+    console.log('\n🔄 Running Workflow Demo...\n');
+    await comprehensiveWorkflowDemo();
+  }
+}
+
+// Run the demo if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  runAllDemos().catch(console.error);
+}
+
+export { comprehensiveWorkflowDemo, comprehensiveChatDemo, runAllDemos };
