@@ -34,11 +34,12 @@ const client = new DifyClient({
   apiKey: 'your-api-key',
 });
 
-// Send a chat message
+// Send a chat message (agent-chat apps only support streaming)
 const response = await client.chat.sendMessage({
   user: 'user-123',
   query: 'Hello, how can you help me?',
-  response_mode: 'blocking',
+  response_mode: 'streaming',
+  inputs: {}, // Required for agent-chat applications
 });
 
 console.log(response.answer);
@@ -295,7 +296,7 @@ const client = new DifyClient({
 
 ### Chat API (`client.chat`)
 
-- `sendMessage(params)` - Send a chat message (supports both blocking and streaming)
+- `sendMessage(params)` - Send a chat message (agent-chat apps only support streaming mode)
 - `getMessages(params)` - Get conversation messages
 - `createMessageFeedback(params)` - Provide feedback on a message
 - `getMessageSuggests(params)` - Get suggested questions

@@ -4,18 +4,115 @@ This directory contains example scripts demonstrating different aspects of the D
 
 ## Available Examples
 
+### 💬 Chat API Examples
+
+#### `test-api-formats-demo.ts`
+
+**Script:** `npm run example:api-format-demo`
+
+Comprehensive API format demonstration with live testing:
+
+- Tests both chat and workflow API formats
+- Shows correct request structure and headers
+- Handles API failures gracefully while demonstrating proper format
+- Validates against official Dify documentation
+- Includes type checking and response handling
+- Perfect for understanding API requirements
+
+#### `api-format-demo.ts`
+
+**Script:** `npm run example:api-format`
+
+Demonstrates correct API request formats based on official Dify documentation:
+
+- Shows proper request structure for each API endpoint
+- Displays headers, body, and parameters
+- Validates API call formats even when calls fail
+- Compares chat vs workflow API structures
+- Helpful for debugging API integration issues
+
+#### `chat-streaming-basic-demo.ts`
+
+**Script:** `npm run example:chat-streaming`
+
+Demonstrates chat functionality with streaming responses (agent-chat apps only support streaming):
+
+- Single message sending with streaming
+- Response structure analysis
+- Performance timing
+- Error handling
+
+#### `chat-streaming-demo.ts`
+
+**Script:** `npm run example:chat-streaming-callback`
+
+Shows real-time streaming chat capabilities:
+
+- Streaming message sending
+- Real-time output display
+- Chunk processing
+- Event type analysis
+
+#### `chat-conversation-demo.ts`
+
+**Script:** `npm run example:chat-conversation`
+
+Comprehensive conversation management:
+
+- Starting new conversations
+- Continuing conversations with context
+- Retrieving conversation history
+- Message tracking
+
+### 🔄 Workflow API Examples
+
+#### `workflow-blocking-demo.ts`
+
+**Script:** `npm run example:workflow-blocking`
+
+Basic workflow execution with blocking responses:
+
+- Simple workflow execution
+- Response structure analysis
+- Output processing
+- Performance metrics
+
+#### `workflow-streaming-demo.ts`
+
+**Script:** `npm run example:workflow-streaming`
+
+Real-time streaming workflow execution:
+
+- Streaming workflow processing
+- Live output display
+- Event tracking
+- Chunk analysis
+
+### 📱 App API Examples
+
+#### `app-info-demo.ts`
+
+**Script:** `npm run example:app-info`
+
+Application information and configuration:
+
+- App info retrieval
+- Parameter configuration
+- Meta information
+- Capability detection
+
 ### 🎯 `comprehensive-workflow-demo.ts`
 
 **Script:** `npm run example:workflow`
 
-A comprehensive demonstration of the Dify workflow API including:
+A comprehensive demonstration that automatically detects app type and runs appropriate demos:
 
-- Blocking workflow execution with timing
-- Streaming workflow execution with chunk analysis
+- Auto-detection of app mode (chat vs workflow)
+- Complete feature demonstration
+- Blocking and streaming execution
 - Custom input parameters
 - Error handling patterns
-- Workflow run information retrieval
-- Parameter validation
+- Information retrieval
 
 ### 🔍 `debug-api.ts`
 
@@ -47,22 +144,66 @@ All examples use real API credentials and will make actual API calls. Make sure 
 2. Internet connectivity
 3. Sufficient API quota/credits
 
+### Chat Examples (use chat app API key)
+
 ```bash
-# Run the comprehensive workflow demo
+# Test streaming chat (agent-chat apps only support streaming)
+npm run example:chat-streaming
+
+# Test streaming chat with callback
+npm run example:chat-streaming-callback
+
+# Test conversation management
+npm run example:chat-conversation
+```
+
+### Workflow Examples (use workflow app API key)
+
+```bash
+# Test basic blocking workflow
+npm run example:workflow-blocking
+
+# Test streaming workflow
+npm run example:workflow-streaming
+```
+
+### App Information
+
+```bash
+# Get app info and parameters
+npm run example:app-info
+```
+
+### Comprehensive Tests
+
+```bash
+# Run comprehensive demo (auto-detects app type)
 npm run example:workflow
 
-# Run the API debugging script
+# Run API debugging script
 npm run debug:api
 
-# Run the raw API testing script
+# Run raw API testing script
 npm run test:raw
 ```
 
 ## Configuration
 
-Examples are preconfigured with test credentials. For production use, you should:
+Examples are preconfigured with different API keys for different app types:
 
-1. Replace the API key with your own
+- **Chat Examples**: Use `app-BULne4gxjnuRCqcXisqqHn2I` (chat app)
+- **Workflow Examples**: Use `app-D9lvqK3YpGnOetRDA2yIHexo` (workflow app)
+
+For production use, you should:
+
+1. Replace the API keys with your own
 2. Update the base URL if using a different Dify instance
 3. Modify user IDs and input parameters as needed
 4. Adjust timeout values for your use case
+
+## Notes
+
+- Individual examples are faster and more focused than comprehensive demos
+- Each example includes detailed logging and error handling
+- Streaming examples show real-time output for better user experience
+- Examples automatically handle different response types and error conditions

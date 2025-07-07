@@ -17,8 +17,7 @@ async function debugDifyAPI() {
     const appInfo = await client.app.getInfo();
     console.log('✅ App Info:', JSON.stringify(appInfo, null, 2));
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ App Info failed:', errorMessage);
   }
 
@@ -28,8 +27,7 @@ async function debugDifyAPI() {
     const appParams = await client.app.getParameters();
     console.log('✅ App Parameters:', JSON.stringify(appParams, null, 2));
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ App Parameters failed:', errorMessage);
   }
 
@@ -51,8 +49,7 @@ async function debugDifyAPI() {
       console.log('✅ Chat Completion:', JSON.stringify(chatResponse, null, 2));
     }
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('❌ Chat Completion failed:', errorMessage);
   }
 
@@ -64,10 +61,7 @@ async function debugDifyAPI() {
       user: userId,
       response_mode: 'blocking',
     });
-    console.log(
-      '✅ Workflow Response:',
-      JSON.stringify(workflowResponse, null, 2),
-    );
+    console.log('✅ Workflow Response:', JSON.stringify(workflowResponse, null, 2));
   } catch (error: unknown) {
     console.error('❌ Workflow failed:', error);
 

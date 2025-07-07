@@ -11,12 +11,7 @@ import type {
   UploadFileResponse,
 } from './types.js';
 
-import {
-  buildURL,
-  createFormData,
-  createHeaders,
-  handleResponse,
-} from './utils.js';
+import { buildURL, createFormData, createHeaders, handleResponse } from './utils.js';
 
 /**
  * File and Media API methods
@@ -35,11 +30,7 @@ export class FileAPI {
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-        false,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
       body: formData,
     });
 
@@ -57,11 +48,7 @@ export class FileAPI {
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-        false,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders, false),
       body: formData,
     });
 
@@ -78,17 +65,12 @@ export class FileAPI {
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: createHeaders(
-        this.config.apiKey,
-        this.config.requestOptions?.extraHeaders,
-      ),
+      headers: createHeaders(this.config.apiKey, this.config.requestOptions?.extraHeaders),
       body: JSON.stringify(params),
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Request failed: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Request failed: ${response.status} ${response.statusText}`);
     }
 
     return response.blob();
