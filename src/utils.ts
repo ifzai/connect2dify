@@ -144,7 +144,7 @@ export function createFormData(params: {
  */
 export function buildURL(baseUrl: string, path: string, params: Record<string, string> = {}): string {
   let fullUrl: string;
-  
+
   // If path is an absolute path (starts with /), it should replace the base URL path
   if (path.startsWith('/')) {
     // Parse base URL to get protocol and host
