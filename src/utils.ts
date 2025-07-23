@@ -143,23 +143,32 @@ export function createFormData(params: {
  * Builds URL with query parameters
  */
 export function buildURL(baseUrl: string, path: string, params: Record<string, string> = {}): string {
-  // Ensure baseUrl ends with /
-  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  let fullUrl: string;
+  
+  // If path is an absolute path (starts with /), it should replace the base URL path
+  if (path.startsWith('/')) {
+    // Parse base URL to get protocol and host
+    const baseUrlObj = new URL(baseUrl);
+    fullUrl = `${baseUrlObj.protocol}//${baseUrlObj.host}${path}`;
+  } else {
+    // For relative paths, append to base URL
+    const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+    fullUrl = `${normalizedBaseUrl}${path}`;
+  }
 
-  // Ensure path doesn't start with /
-  const normalizedPath = path.startsWith('/') ? path.substring(1) : path;
-
-  // Construct the full URL
-  const fullUrl = `${normalizedBaseUrl}${normalizedPath}`;
-
-  // Create URL object to handle query parameters
-  const url = new URL(fullUrl);
-
-  for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== null) {
-      url.searchParams.set(key, value);
+  // Handle query parameters by constructing them manually
+  if (Object.keys(params).length > 0) {
+    const queryParams = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined && value !== null) {
+        queryParams.set(key, value);
+      }
+    }
+    const queryString = queryParams.toString();
+    if (queryString) {
+      fullUrl += `?${queryString}`;
     }
   }
 
-  return url.toString();
+  return fullUrl;
 }
