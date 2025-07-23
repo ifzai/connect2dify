@@ -36,7 +36,9 @@ export function createHeaders(
  */
 export async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `Request failed: ${response.status} ${response.statusText}`,
+    );
   }
   return response.json() as Promise<T>;
 }
@@ -60,7 +62,11 @@ export function parseSSEChunk(chunkData: string): unknown | null {
 /**
  * Processes buffer and extracts complete SSE chunks
  */
-export function processSSEBuffer<T>(buffer: string, chunks: T[], onChunk?: (chunk: T) => void): string {
+export function processSSEBuffer<T>(
+  buffer: string,
+  chunks: T[],
+  onChunk?: (chunk: T) => void,
+): string {
   const splitMark = '\n\n';
   let remainingBuffer = buffer;
 
@@ -84,7 +90,10 @@ export function processSSEBuffer<T>(buffer: string, chunks: T[], onChunk?: (chun
 /**
  * Handles streaming response using modern fetch API
  */
-export async function handleStreamResponse<T>(response: Response, onChunk?: (chunk: T) => void): Promise<T[]> {
+export async function handleStreamResponse<T>(
+  response: Response,
+  onChunk?: (chunk: T) => void,
+): Promise<T[]> {
   if (!response.body) {
     throw new Error('Response body is empty');
   }
@@ -120,7 +129,10 @@ export async function handleStreamResponse<T>(response: Response, onChunk?: (chu
  */
 export function isStreamingSupported(): boolean {
   try {
-    return typeof ReadableStream !== 'undefined' && new Response(new ReadableStream()).body?.getReader() !== undefined;
+    return (
+      typeof ReadableStream !== 'undefined' &&
+      new Response(new ReadableStream()).body?.getReader() !== undefined
+    );
   } catch {
     return false;
   }
@@ -142,14 +154,18 @@ export function createFormData(params: {
 /**
  * Builds URL with query parameters
  */
-export function buildURL(baseUrl: string, path: string, params: Record<string, string> = {}): string {
+export function buildURL(
+  baseUrl: string,
+  path: string,
+  params: Record<string, string> = {},
+): string {
   let fullUrl: string;
 
   // If path is an absolute path (starts with /), it should replace the base URL path
   if (path.startsWith('/')) {
     // Parse base URL to get protocol and host
-    const baseUrlObj = new URL(baseUrl);
-    fullUrl = `${baseUrlObj.protocol}//${baseUrlObj.host}${path}`;
+    // const baseUrlObj = new URL(baseUrl);
+    fullUrl = `${baseUrl}${path}`;
   } else {
     // For relative paths, append to base URL
     const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
